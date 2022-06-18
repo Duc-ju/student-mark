@@ -4,14 +4,27 @@ import SemesterViewer from "../SemesterViewer";
 import semesters from "./semesters";
 
 function FullCourse(props) {
+    const { major } = props;
     const [length, setLength] = useState();
-    const [semesterState, setSemesterState] = useState(() => {
+    const getLocalSemesters = () => {
         const localSemester = JSON.parse(
             window.localStorage.getItem("semesters")
         );
-        if (localSemester && localSemester.length) return localSemester;
-        else return [...semesters];
-    });
+        if (!!localSemester && !localSemester.cntt) {
+            const newSemester = { ttdpt: semesters.ttdpt, cntt: localSemester };
+            window.localStorage.setItem(
+                "semesters",
+                JSON.stringify(newSemester)
+            );
+            return newSemester[major];
+        }
+        if (!!localSemester && localSemester.cntt) return localSemester[major];
+        else return { ...semesters }[major];
+    };
+    const [semesterState, setSemesterState] = useState(getLocalSemesters());
+    React.useEffect(() => {
+        setSemesterState(getLocalSemesters);
+    }, [major]);
     const handleChange = (e) => {
         const value = e.target.value;
         if (value === "") setLength();
@@ -26,7 +39,7 @@ function FullCourse(props) {
                 return prev + curr.credit * curr.mark;
             }, 0);
             const sumPass = semester.subjects.reduce((prev, curr) => {
-                if (curr.mark == 0) return prev;
+                if (curr.mark === 0) return prev;
                 return prev + curr.credit;
             }, 0);
             const sumCredit = semester.subjects.reduce((prev, curr) => {
@@ -67,7 +80,7 @@ function FullCourse(props) {
                 );
             }, 0);
             const sumPass = semester.subjects.reduce((prev, curr) => {
-                if (curr.mark == 0 && !curr.newMark) return prev;
+                if (curr.mark === 0 && !curr.newMark) return prev;
                 return prev + curr.credit;
             }, 0);
             const sumCredit = semester.subjects.reduce((prev, curr) => {
@@ -97,7 +110,14 @@ function FullCourse(props) {
         };
     })();
     const handleSave = () => {
-        window.localStorage.setItem("semesters", JSON.stringify(semesterState));
+        window.localStorage.setItem(
+            "semesters",
+            JSON.stringify({
+                ttdpt: semesters.ttdpt,
+                cntt: semesters.cntt,
+                [major]: semesterState
+            })
+        );
         window.alert("Lưu thông tin thành công!");
     };
 
@@ -108,7 +128,7 @@ function FullCourse(props) {
 
     const handleInfo = () => {
         window.alert(
-            "Mọi người nhập điểm của mình trong các kì học vào app, sau đó mọi người có thể chỉnh điểm của từng môn để biết rằng nếu mình học cải thiện một môn từ D lên A+ thì GPA tăng thêm bao nhiêu, hoặc nhập thử điểm các kì tới để biết mình phải cố gắng đạt bao nhiêu chấm để được bằng Giỏi, bằng xuất sắc..."
+            "Mọi người nhập điểm của mình trong các kì học vào app, sau đó mọi người có thể chỉnh điểm của từng môn để biết rằng nếu mình học cải thiện một môn từ D lên A+ thì GPA tăng thêm bao nhiêu chẳng hạn, hoặc nhập thử điểm các kì tới để biết mình phải cố gắng đạt bao nhiêu chấm để được bằng giỏi, xuất sắc..."
         );
     };
     return (
@@ -124,13 +144,12 @@ function FullCourse(props) {
                     <option value="6">Kì 2 năm 3</option>
                     <option value="7">Kì 1 năm 4</option>
                     <option value="8">Kì 2 năm 4</option>
-                    <option value="9">Kì thực tập hè</option>
+                    <option value="9">Kì thực tập</option>
                     <option value="10">Tất cả các học kì</option>
                 </select>
                 <div className={classes.description}>
-                    Để tránh phải nhập lại điểm nhiều lần, chọn "Kì 1 năm 4",
-                    nhập toàn bộ điểm và nhấn "Lưu vào bộ nhớ" để tránh phải
-                    nhập lại nhiều lần
+                    Để tránh phải nhập lại điểm nhiều lần hãy nhấn nút lưu điểm
+                    ở dưới cùng!
                 </div>
                 {length && semesterState && (
                     <div className={classes.resetContainer}>
@@ -161,6 +180,14 @@ function FullCourse(props) {
                         ))}
                     </div>
                     <div className={classes.summary}>
+                        <p>
+                            <button
+                                onClick={handleSave}
+                                className={classes.saveButton}
+                            >
+                                Lưu vào bộ nhớ
+                            </button>
+                        </p>
                         {summary ? (
                             <>
                                 <p>
@@ -198,14 +225,6 @@ function FullCourse(props) {
                                             {summaryNew.sumPass}
                                         </span>
                                     )}
-                                </p>
-                                <p>
-                                    <button
-                                        onClick={handleSave}
-                                        className={classes.saveButton}
-                                    >
-                                        Lưu vào bộ nhớ
-                                    </button>
                                 </p>
                             </>
                         ) : (
