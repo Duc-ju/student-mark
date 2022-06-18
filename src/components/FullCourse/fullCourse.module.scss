@@ -1,0 +1,101 @@
+.root {
+  margin-top: 16px;
+  width: 1000px;
+  max-width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+
+  .resetContainer {
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+
+    .infoButton,
+    .resetButton {
+      outline: none;
+      border: none;
+      background-color: darksalmon;
+      border-radius: 0.75rem;
+      padding: 4px 8px;
+      color: white;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 16px;
+
+      &:hover {
+        background-color: burlywood;
+      }
+    }
+
+    .infoButton {
+      background-color: cadetblue;
+
+      &:hover {
+        background-color: darkcyan;
+      }
+    }
+  }
+
+  .control {
+
+    select {
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .description {
+      margin: 16px auto 6px auto;
+      display: block;
+      max-width: 600px;
+      text-align: center;
+    }
+  }
+
+  .summary {
+    margin-top: 16px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    p {
+      margin: 6px 0;
+
+      span {
+        font-size: 12px;
+        font-weight: 300;
+        padding: 4px 8px;
+        color: white;
+        background-color: darksalmon;
+        border-radius: 0.75rem;
+      }
+
+      .lineThrough {
+        text-decoration: line-through;
+        background-color: grey;
+      }
+
+      .newSumary {
+        margin-left: 4px;
+      }
+    }
+
+    .saveButton {
+      outline: none;
+      border: none;
+      background-color: cadetblue;
+      border-radius: 0.75rem;
+      padding: 4px 8px;
+      color: white;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 16px;
+
+      &:hover {
+        background-color: darkcyan;
+      }
+    }
+  }
+}

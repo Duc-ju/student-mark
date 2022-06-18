@@ -1,0 +1,44 @@
+.root {
+  p, h2 {
+    margin: 0;
+  }
+
+  .container {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .info {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+
+      h2 {
+        font-weight: 500;
+        font-size: 14px;
+      }
+
+      .badge {
+        font-size: 12px;
+        font-weight: 300;
+        padding: 4px 8px;
+        color: white;
+        background-color: cadetblue;
+        border-radius: 0.75rem;
+      }
+    }
+
+    .value {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+  }
+}
+
+.root + .root {
+  margin-top: 20px;
+}

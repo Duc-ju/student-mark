@@ -1,0 +1,31 @@
+.root {
+  padding: 16px;
+  border: 1px solid cadetblue;
+  border-radius: 0.75rem;
+
+  .summary {
+    margin-top: 16px;
+
+    span {
+      font-size: 12px;
+      font-weight: 300;
+      padding: 4px 8px;
+      color: white;
+      background-color: darksalmon;
+      border-radius: 0.75rem;
+    }
+
+    .lineThrough {
+      text-decoration: line-through;
+      background-color: grey;
+    }
+
+    .newSumary {
+      margin-left: 4px;
+    }
+  }
+}
+
+.root + .root {
+  margin-top: 16px;
+}
